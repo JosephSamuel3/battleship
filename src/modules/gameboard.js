@@ -118,4 +118,10 @@ export class Gameboard {
         this.missedHits = []
         this.successfullHits = []
     }
+
+    getShipAt(x, y) {
+        return this.ships.find(ship =>
+            ship.coordinates.some(coord => coord[0] === x && coord[1] === y)
+        );
+    }
 }

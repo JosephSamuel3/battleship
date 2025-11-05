@@ -49,14 +49,14 @@ export default class GameController {
     computersTurn() {
         if (this.isGameOver) return;
 
-        const { x, y, result } = this.computer.randomAttack(this.player.gameboard);
+        const { x, y, result } = this.computer.smartAttack(this.player.gameboard);
         this.dom.updateBoardCell("player", x, y, result.result);
 
         if (result.result === "invalid") return;
 
         if (this.player.gameboard.allShipSunk()) {
             this.isGameOver = true;
-            this.dom.displayWinner("computer");
+            this.dom.displayWinner("Computer");
             return;
         }
 
@@ -67,6 +67,7 @@ export default class GameController {
         this.isGameOver = false;
         this.player.gameboard.resetBoard();
         this.computer.gameboard.resetBoard();
+        this.currTurn = "player";
         this.startGame();
     }
 }

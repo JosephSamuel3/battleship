@@ -42,22 +42,19 @@ export default class DOMManager {
     
     attachEventListeners() {
         this.cpuBoardContainer.addEventListener("click", (e) => {
-            console.log("CPU board clicked!", e.target); // 🧠 Debug check
             const cell = e.target.closest(".cpu-cell");
-            if (!cell) return console.log("Not a cell, ignoring click");
+            if (!cell) return 
 
-            if (this.game.currTurn !== "player" || this.game.gameOver)
-                return console.log("Not player's turn or game over, click ignored");
-
+            if (this.game.currTurn !== "player" || this.game.gameOver) return 
             const x = Number(cell.dataset.x);
             const y = Number(cell.dataset.y);
-            console.log("Attacking cell:", x, y);
 
             this.game.playerAttack(x, y);
         });
         
         this.restartButton.addEventListener("click", () => {
             this.game.resetGame();
+            this.messageDisplay.textContent = "";
         });
     }
 
@@ -79,7 +76,7 @@ export default class DOMManager {
 
     updateTurnDisplay(currentTurn) {
         this.turnDisplay.textContent =
-        currentTurn === "player" ? "Your Turn" : "Computer's Turn";
+        currentTurn === "player" ? "Player's Turn" : "Computer's Turn";
 
         if (currentTurn === "player") {
             this.playerBoardContainer.classList.add("inactive-turn");
