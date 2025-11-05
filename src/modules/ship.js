@@ -1,4 +1,4 @@
-export default class Ship {
+export class Ship {
     constructor(name, length) {
         if(typeof length !== "number" || length <= 0){
             throw new Error ("Enter a number greater than 0!")

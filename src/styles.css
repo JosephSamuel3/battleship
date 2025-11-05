@@ -1,0 +1,135 @@
+/* Reset basic defaults */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #101820;
+  color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  padding-top: 2rem;
+}
+
+/* --- HEADER AREA --- */
+#turn-display {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+#message {
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  color: #79c7c5;
+}
+
+/* --- BOARDS WRAPPER --- */
+.boards {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* --- INDIVIDUAL BOARDS --- */
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 2.5rem);
+  grid-template-rows: repeat(10, 2.5rem);
+  gap: 2px;
+  background-color: #1c2533;
+  border: 2px solid #79c7c5;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* --- ACTIVE / INACTIVE TURN EFFECTS --- */
+.board.active-turn {
+  border-color: #00ffcc;
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.7);
+  transform: scale(1.03);
+}
+
+.board.inactive-turn {
+  opacity: 0.6;
+  filter: blur(0.5px);
+}
+
+/* --- CELLS --- */
+.cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #2b3a4a;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.cpu-cell:hover {
+  background-color: #3e5268;
+}
+
+/* --- PLAYER SHIPS --- */
+.ship-cell {
+  background-color: #35596b;
+}
+
+/* --- HIT / MISS --- */
+.hit {
+  background-color: crimson !important;
+  position: relative;
+}
+.hit::after {
+  content: "✖";
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.miss {
+  background-color: #233140 !important;
+  position: relative;
+}
+.miss::after {
+  content: "•";
+  color: #a0a0a0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* --- FOOTER AREA --- */
+#restart-btn {
+  background-color: #79c7c5;
+  border: none;
+  color: #101820;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.25s ease;
+}
+
+#restart-btn:hover {
+  background-color: #5ab2ad;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 800px) {
+  .boards {
+    flex-direction: column;
+    align-items: center;
+  }
+}

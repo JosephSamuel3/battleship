@@ -21,6 +21,7 @@ export default class Player {
             enemyBoard.missedHits.some(coord => coord[0] === x && coord[1] === y)
         );
 
-        return this.attack(enemyBoard, x, y);
+        const result = this.attack(enemyBoard, x, y);
+        return { x, y, result }
     }
 }

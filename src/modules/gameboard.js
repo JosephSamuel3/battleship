@@ -1,5 +1,4 @@
-import Ship from "./ship.js"
-
+import { Ship } from "./ship.js";
 export class Gameboard {
     constructor() {
         this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
@@ -8,9 +7,9 @@ export class Gameboard {
         this.ships = [];
     }
 
-    placeship(ship, startX, startY, orientation) {
+    placeShip(ship, startX, startY, orientation) {
         if (!this.#isValidPlacement(ship, startX, startY, orientation)) {
-            return false;
+            throw new Error("Invalid ship placement: overlap or out of bounds");
         }
 
         const coordinates = [];
@@ -51,10 +50,45 @@ export class Gameboard {
         return true;
     }
 
+    randomPlaceShip(ship) {
+        const orientations = ["horizontal", "vertical"];
+        let placed = false;
+
+        while (!placed) {
+            const orientation = orientations[Math.floor(Math.random() * orientations.length)];
+            const startX = Math.floor(Math.random() * this.board.length);
+            const startY = Math.floor(Math.random() * this.board.length);
+
+            try {
+                this.placeShip(ship, startX, startY, orientation);
+                placed = true;
+            } catch (error) {
+                // Invalid placement — loop again
+            }
+        }
+    }
+
+    randomizeFleet() {
+        const fleet = [
+            ["carrier", 5],
+            ["battleship", 4],
+            ["cruiser", 3],
+            ["submarine", 3],
+            ["destroyer", 2],
+        ];
+
+        // Place each ship randomly
+        fleet.forEach(([name, length]) => {
+            const ship = new Ship(name, length);
+            this.randomPlaceShip(ship);
+        });
+    }
+
+
     receiveAttack(x, y) {
         if (this.successfullHits.some(coord => coord[0] === x && coord[1] === y) ||
             this.missedHits.some(coord => coord[0] === x && coord[1] === y)) {
-            return false; // coordinate was already hit
+            return { result: "already attacked" }; // coordinate was already hit
         }
 
         if (x < 0 || x >= this.board.length || y < 0 || y >= this.board[0].length) {
@@ -65,18 +99,17 @@ export class Gameboard {
 
         if (cell === null) {
             this.missedHits.push([x, y]);
-            return false;
+            return { result: "miss" };
         } else {
             const ship = this.board[x][y];
             ship.hit();
             this.successfullHits.push([x, y]);
-            return true;
+            return { result: "hit", ship: ship.name };
         }
-
     }
 
     allShipSunk() {
-        this.ships.every(entry => entry.ship.sunk())
+        return this.ships.every(entry => entry.ship.isSunk())
     }
 
     resetBoard() {
